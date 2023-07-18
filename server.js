@@ -23,9 +23,11 @@
 // We also need `fs` to read the certificates/keys to configure HTTPS.
 //
 
-const express = require('express')
-const fs = require('fs')
-const https = require('https')
+const express = require('express');
+const fs = require('fs');
+const https = require('https');
+
+const port = 9999;
 
 // Setting up the private key and the certificate
 // ==============================================
@@ -81,13 +83,6 @@ const opts = { key: fs.readFileSync('server_key.pem')
 
 const app = express()
 
-// We add our "landing page" first. This is unprotected, so everyone will see it whether they present a client cert
-// or not.
-
-app.get('/', (req, res) => {
-	res.send('<a href="authenticate">Log in using client certificate</a>')
-})
-
 // Then we add our protected endpoint: it just displays information about the user and the validity of their
 // certificate. We can get the certificate information from the HTTPS connection handle:
 
@@ -120,7 +115,10 @@ app.get('/authenticate', (req, res) => {
 })
 
 // Let's create our HTTPS server and we're ready to go.
-https.createServer(opts, app).listen(9999)
+const server = https.createServer(opts, app)
+    .listen(port, () => {
+            console.log(`The server is running and could be reached at: https://localhost:9999/`)
+         })
 
 // Then we can start our server with `npm i && node server.js`.
 
