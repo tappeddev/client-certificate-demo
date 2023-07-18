@@ -22,3 +22,21 @@ $ curl --insecure --cert bob.pfx --cert-type p12 https://localhost:9999/authenti
 Sorry Bob, certificates from Bob are not welcome here.
 ```
 
+------------
+
+First of all, we need to setup the api
+
+1. Call `npm install`
+2. Call `npm start`
+
+After we also have the api, we could go to postman and setup the request
+
+1. Add a new request `get` request 
+2. The url need to be `https://localhost:9999/authenticate`
+3. Go to the settings on the top right edge
+4. Click _Certificates_
+5. Click _Add Certificates_
+6. Add the following information:
+   1. Host = localhost / 9999
+   2. PFX file = select either `alice.p12` (working) or `bob.p12` (not working)
+   3. Passphrase = 1234
