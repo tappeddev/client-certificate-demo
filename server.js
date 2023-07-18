@@ -83,6 +83,11 @@ const opts = { key: fs.readFileSync('server_key.pem')
 
 const app = express()
 
+
+app.get('/test', (req, res) => {
+   res.status(200).send(`Hello, your connection looks good`)
+})
+
 // Then we add our protected endpoint: it just displays information about the user and the validity of their
 // certificate. We can get the certificate information from the HTTPS connection handle:
 
@@ -96,15 +101,18 @@ app.get('/authenticate', (req, res) => {
       // earlier in `opts.ca`. We display the name of our user (CN = Common Name) and the name of the issuer, which is
       // `localhost`.
       	if (req.client.authorized) {
+      	    console.log(`Success - 200`)
       		res.send(`Hello ${cert.subject.CN}, your certificate was issued by ${cert.issuer.CN}!`)
       // They can still provide a certificate which is not accepted by us. Unfortunately, the `cert` object will be an empty
       // object instead of `null` if there is no certificate at all, so we have to check for a known field rather than
       // truthiness.
       	} else if (cert.subject) {
+      	    console.log(`Error - 403`)
       		res.status(403)
       		   .send(`Sorry ${cert.subject.CN}, certificates from ${cert.issuer.CN} are not welcome here.`)
       // And last, they can come to us with no certificate at all:
       	} else {
+      	    console.log(`Error - 401`)
       		res.status(401)
       		   .send(`Sorry, but you need to provide a client certificate to continue.`)
       	}
