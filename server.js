@@ -81,12 +81,11 @@ const opts = { key: fs.readFileSync('server_key.pem')
 
 const app = express()
 
-// use the express-static middleware
-app.use(express.static("public"))
+const PORT = process.env.PORT || 3000
 
 // define the first route
-app.get("/", function (req, res) {
-  res.send("<h1>Hello World!</h1>")
+app.get('/', (req, res) => {
+    res.send('Hello from Node.js!')
 })
 
 app.get('/favicon.ico', (req, res) => res.status(204));
@@ -131,7 +130,7 @@ app.get('/authenticate', (req, res) => {
 
 // Let's create our HTTPS server and we're ready to go.
 const server = https.createServer(opts, app)
-    .listen(process.env.PORT || 9999, () => {
+    .listen(PORT, () => {
             console.log(`Server is running...`)
          })
 
