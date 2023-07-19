@@ -89,6 +89,8 @@ app.get("/", function (req, res) {
   res.send("<h1>Hello World!</h1>")
 })
 
+app.get('/favicon.ico', (req, res) => res.status(204));
+
 app.get('/test', (req, res) => {
    res.status(200).send(`Hello, your connection looks good`)
 })
