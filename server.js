@@ -41,7 +41,7 @@ app.get('/', (req, res) => {
 })
 
 // Let’s create our HTTPS server and we’re ready to go.
-const server = https.createServer(opts, app)
+const server = https.createServer(app)
     .listen(PORT, () => {
             console.log(`Server is running in port: ${PORT}`)
          })
