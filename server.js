@@ -140,10 +140,15 @@ app.get('/authenticate', (req, res) => {
 })
 
 // Let's create our HTTPS server and we're ready to go.
-const server = https.createServer(opts, app)
+/*const server = https.createServer(opts, app)
     .listen(PORT, () => {
             console.log(`Server is running in port: ${PORT}`)
-         })
+         });*/
+
+app.listen(PORT, () => {
+	console.log('server running on port 3000', '');
+});
+
 
 // Then we can start our server with `npm i && node server.js`.
 
