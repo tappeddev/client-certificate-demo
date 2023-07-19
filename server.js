@@ -134,7 +134,7 @@ app.get('/authenticate', (req, res) => {
       		   .send(`Sorry, but you need to provide a client certificate to continue.`)
       	}
     } catch (error) {
-        console.log(`The request certificate is missing`)
+        console.log(`The request certificate is missing and the following error was thrown: ${error}`)
         res.status(500).send(`Sorry, but the certificate is missing.`)
     }
 })
