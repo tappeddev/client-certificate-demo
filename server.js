@@ -40,51 +40,6 @@ app.get('/', (req, res) => {
     res.send('Hello from Node.js!')
 })
 
-app.get('/favicon.ico', (req, res) => res.status(204));
-
-app.get('/test', (req, res) => {
-   res.status(200).send(`Hello, your connection looks good`)
-})
-
-// Then we add our protected endpoint: it just displays information about the user and the validity of their
-// certificate. We can get the certificate information from the HTTPS connection handle:
-
-app.get('/authenticate', (req, res) => {
-    try {
-      const cert = req.connection.getPeerCertificate()
-
-      console.log(`The request certificate is from: ${cert.subject.CN}`)
-
-      // The `req.client.authorized` flag will be true if the certificate is valid and was issued by a CA we white-listed
-      // earlier in `opts.ca`. We display the name of our user (CN = Common Name) and the name of the issuer, which is
-      // `localhost`.
-      	if (req.client.authorized) {
-      	    console.log(`Success - 200`)
-      		res.send(`Hello ${cert.subject.CN}, your certificate was issued by ${cert.issuer.CN}!`)
-      // They can still provide a certificate which is not accepted by us. Unfortunately, the `cert` object will be an empty
-      // object instead of `null` if there is no certificate at all, so we have to check for a known field rather than
-      // truthiness.
-      	} else if (cert.subject) {
-      	    console.log(`Error - 403`)
-      		res.status(403)
-      		   .send(`Sorry ${cert.subject.CN}, certificates from ${cert.issuer.CN} are not welcome here.`)
-      // And last, they can come to us with no certificate at all:
-      	} else {
-      	    console.log(`Error - 401`)
-      		res.status(401)
-      		   .send(`Sorry, but you need to provide a client certificate to continue.`)
-      	}
-    } catch (error) {
-        console.log(`The request certificate is missing`)
-        res.status(500).send(`Sorry, but the certificate is missing.`)
-    }
-})
-
-// Let's create our HTTPS server and we're ready to go.
-const server = https.createServer(opts, app)
-    .listen(PORT, () => {
-            console.log(`Server is running in port: ${PORT}`)
-         })
 
 // Then we can start our server with `npm i && node server.js`.
 
@@ -163,4 +118,3 @@ const server = https.createServer(opts, app)
 // [7]: http://passportjs.org/
 // [8]: https://github.com/ripjar/passport-client-cert
 // [9]: https://github.com/sevcsik/client-certificate-demo/tree/chapter-1
-
