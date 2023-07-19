@@ -146,7 +146,7 @@ app.get('/authenticate', (req, res) => {
          });*/
 
 app.listen(PORT, () => {
-	console.log('server running on port 3000', '');
+	console.log(`Server is running in port: ${PORT}`)
 });
 
 
