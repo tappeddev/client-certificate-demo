@@ -27,54 +27,6 @@ const express = require('express');
 const fs = require('fs');
 const https = require('https');
 
-// Setting up the private key and the certificate
-// ==============================================
-//
-// First of all, we need to generate our keys and certificates. We use the `openssl` command-line tool. On
-// Linux, it's likely already installed -- if not, install the `openssl` package of your distribution. On Windows it's
-// a bit trickier, see [this tutorial][5];
-//
-// Like with every regular HTTPS server, we need to generate a server certificate. For the sake of brevity, we
-// use a self-signed certificate here -- in real life, you probably want to use a well-known certificate authority,
-// such as [Let's Encrypt][6].
-//
-// To generate a self-signed certificate (in our case, without encryption):
-// ```bash
-// $ openssl req -x509 -newkey rsa:4096 -keyout server_key.pem -out server_cert.pem -nodes -days 365 -subj "/CN=localhost/O=Client\ Certificate\ Demo"
-// ```
-//
-// This is actually a three-step process combined into one command:
-//
-// - Create a new 4096bit RSA key and save it to `server_key.pem`, *without* DES encryption (`-newkey`, `-keyout`
-//   and `-nodes`)
-// - Create a Certificate Signing Request for a given subject, valid for 365 days (`-days`, `-subj`)
-// - Sign the CSR using the server key, and save it to `server_cert.pem` as an X.509 certificate (`-x509`, `-out`)
-//
-// We could have also done this with tree commands, `openssl genrsa`, `openssl req` and `openssl x509`. We used the PEM
-// format (the default setting), which is a base64-encoded text file with a
-// `----- BEGIN/END CERTIFICATE/PRIVATE KEY -----` header and footer. Another option would be the DER format,
-// which uses binary encoding. There is a bit of a confusion what the file extension should refer to: it's also common
-// to use `.key` or `.crt`, referring to the contents of the file rather than the encoding (in which case they can
-// contain both DER- and PEM-encoded data).
-//
-// Configuring the Node.js HTTP server
-// ===================================
-//
-// Let's add our server key and certificate to the `options object`, which we pass to the HTTPS server later:
-const opts = { key: fs.readFileSync('server_key.pem')
-             , cert: fs.readFileSync('server_cert.pem')
-// Next, we instruct the HTTPS server to request a client certificate from the user
-             , requestCert: true
-// Then we tell it to accept requests with no valid certificate. We need this to handle invalid connections as well
-// (for example to display an error message), otherwise, they would just get a cryptic HTTPS error message from the
-// browser (`ERR_BAD_SSL_CLIENT_AUTH_CERT` to be precise)
-
-             , rejectUnauthorized: false
-// Finally, we supply a list of CA certificates that we consider valid. For now, we sign client certificates with
-// our own server key, so it will be the same as our server certificate.
-
-             , ca: [ fs.readFileSync('server_cert.pem') ]
-             }
 
 // Then we create our app. We use express only for routeing here -- we could use the [`passport` middleware][7] as
 // well, with a [strategy for client certificates][8], but for now, we keep things simple.
