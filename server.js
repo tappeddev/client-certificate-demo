@@ -123,7 +123,7 @@ app.get('/authenticate', (req, res) => {
 // Let's create our HTTPS server and we're ready to go.
 const server = https.createServer(opts, app)
     .listen(process.env.PORT || 9999, () => {
-            console.log(`The server is running and could be reached at: https://localhost:9999/`)
+            console.log(`The server is running`)
          })
 
 // Then we can start our server with `npm i && node server.js`.
