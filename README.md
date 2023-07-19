@@ -22,8 +22,6 @@ $ curl --insecure --cert bob.pfx --cert-type p12 https://localhost:9999/authenti
 Sorry Bob, certificates from Bob are not welcome here.
 ```
 
-Add the key to the heroku server: `heroku certs:add server_cert.pem server_key.pem`
-
 ------------
 
 First of all, we need to setup the api
