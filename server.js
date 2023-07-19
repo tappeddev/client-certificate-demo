@@ -25,7 +25,7 @@
 
 const express = require('express');
 const fs = require('fs');
-const http = require('http');
+const https = require('https');
 
 // Setting up the private key and the certificate
 // ==============================================
@@ -140,14 +140,10 @@ app.get('/authenticate', (req, res) => {
 })
 
 // Let's create our HTTPS server and we're ready to go.
-const server = http.createServer(opts, app)
+const server = https.createServer(opts, app)
     .listen(PORT, () => {
             console.log(`Server is running in port: ${PORT}`)
          });
-
-/*app.listen(PORT, () => {
-	console.log(`Server is running in port: ${PORT}`)
-});*/
 
 
 // Then we can start our server with `npm i && node server.js`.
