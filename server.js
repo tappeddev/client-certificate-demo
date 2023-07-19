@@ -27,8 +27,6 @@ const express = require('express');
 const fs = require('fs');
 const https = require('https');
 
-const port = 9999;
-
 // Setting up the private key and the certificate
 // ==============================================
 //
@@ -124,7 +122,7 @@ app.get('/authenticate', (req, res) => {
 
 // Let's create our HTTPS server and we're ready to go.
 const server = https.createServer(opts, app)
-    .listen(port, () => {
+    .listen(process.env.PORT || 9999, () => {
             console.log(`The server is running and could be reached at: https://localhost:9999/`)
          })
 
