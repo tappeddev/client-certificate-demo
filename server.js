@@ -80,8 +80,19 @@ const opts = { key: fs.readFileSync('server_key.pem')
 // well, with a [strategy for client certificates][8], but for now, we keep things simple.
 
 const app = express()
+var cors = require('cors');
 
 const PORT = process.env.PORT || 9999
+
+app.use(
+    cors({
+        credentials: true,
+        origin: true
+    })
+);
+
+app.options('*', cors());
+
 
 // define the first route
 app.get('/', (req, res) => {
