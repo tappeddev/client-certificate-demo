@@ -27,7 +27,7 @@ Sorry Bob, certificates from Bob are not welcome here.
 First of all, we need to setup the api
 
 1. Call `npm install`
-2. Call `npm start`
+2. Call `node server.js`
 
 After we also have the api, we could go to postman and setup the request
 
