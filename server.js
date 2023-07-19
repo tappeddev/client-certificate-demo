@@ -81,7 +81,7 @@ const opts = { key: fs.readFileSync('server_key.pem')
 
 const app = express()
 
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 9999
 
 // define the first route
 app.get('/', (req, res) => {
